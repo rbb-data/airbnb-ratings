@@ -40,7 +40,11 @@ function App() {
   useAutoStepper(
     isAnimating,
     () => {
-      setCurrentDayIndex((currentDayIndex + 1) % (counts.length - 1))
+      if (currentDayIndex === counts.length - 1) {
+        setIsAnimating(false)
+        return false
+      }
+      setCurrentDayIndex((currentDayIndex + 1) % counts.length)
       return 400
     },
     0

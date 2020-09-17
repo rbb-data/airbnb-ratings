@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { forceSimulation, forceX, forceY } from 'd3-force'
 import { Point } from 'lib/globalTypes'
 
@@ -30,13 +30,23 @@ interface Props {
 function DotSwarm(props: Props) {
   const { width, height, count, radius, color } = props
 
-  const dots = createNameDotsCluster(width, height, count)
+  const dots = useMemo(() => createNameDotsCluster(width, height, 4500), [
+    width,
+    height,
+  ])
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
       <g>
         {dots.map((dot, j) => (
-          <circle key={j} cx={dot[0]} cy={dot[1]} r={radius} fill={color} />
+          <circle
+            style={{ transition: 'fill 0.4s linear' }}
+            key={j}
+            cx={dot[0]}
+            cy={dot[1]}
+            r={radius}
+            fill={j < count ? color : '#fff'}
+          />
         ))}
       </g>
     </svg>
