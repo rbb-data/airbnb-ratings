@@ -66,7 +66,7 @@ function App() {
     isAnimating,
     () => {
       setCurrentDayIndex((currentDayIndex + 1) % (counts.length - 1))
-      return 200
+      return 400
     },
     0
   )
@@ -122,7 +122,7 @@ function App() {
             setCurrentDayIndex(idx)
           }}
           values={counts.map((c) => parseInt(c.counts))}
-          max={4500}
+          max={4492}
           highlight={currentDayIndex}
         />
       </div>

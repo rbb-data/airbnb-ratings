@@ -15,11 +15,12 @@ export default function Histogram(props: Props) {
   const normalizedValues = values.map((val) => val / max)
 
   const margin = 0.22
+  const maxBarHeight = 5
 
   return (
     <svg
       className={_.svg}
-      viewBox={`0 0 ${values.length} 3.5`}
+      viewBox={`0 0 ${values.length} ${maxBarHeight + 1.2}`}
       width='100%'
       xmlns='http://www.w3.org/2000/svg'
     >
@@ -28,16 +29,16 @@ export default function Histogram(props: Props) {
           <rect
             className={_.rect}
             x={i + margin}
-            y={2.5 - val * 2.5}
+            y={maxBarHeight - val * maxBarHeight}
             width={1 - 2 * margin}
-            height={val * 2.5}
+            height={val * maxBarHeight}
             fill={i === highlight ? blue : lightBlue}
           />
           {i > 1 && i % 2 === 0 && (
             <text
               className={_.text}
               x={i + 0.5}
-              y='3.5'
+              y={maxBarHeight + 1.2}
               textAnchor='middle'
               fill={i === highlight ? blue : lightBlue}
             >
@@ -46,7 +47,13 @@ export default function Histogram(props: Props) {
           )}
         </g>
       ))}
-      <text className={_.text} x={0} y='3.5' textAnchor='left' fill={lightBlue}>
+      <text
+        className={_.text}
+        x={0}
+        y={maxBarHeight + 1.2}
+        textAnchor='left'
+        fill={lightBlue}
+      >
         KW:
       </text>
     </svg>
