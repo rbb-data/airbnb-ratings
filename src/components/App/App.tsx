@@ -55,17 +55,7 @@ function App() {
       <h2 className={_.title}>{currentCount.day}</h2>
 
       <legend className={_.legend}>
-        <span
-          style={{
-            display: 'inline-block',
-            width: '10px',
-            height: '10px',
-            borderRadius: '10px',
-            marginRight: '5px',
-            backgroundColor: defaultBlue,
-          }}
-        />
-        = 1 Bewertung
+        <span />= 1 Bewertung
       </legend>
       <div className={_.dotsWrapper}>
         <DotSwarm

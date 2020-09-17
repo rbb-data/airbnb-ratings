@@ -19,7 +19,7 @@ export default function Histogram(props: Props) {
   return (
     <svg
       className={_.svg}
-      viewBox={`0 0 ${values.length} 2.5`}
+      viewBox={`0 0 ${values.length} 3.5`}
       width='100%'
       xmlns='http://www.w3.org/2000/svg'
     >
@@ -33,8 +33,22 @@ export default function Histogram(props: Props) {
             height={val * 2.5}
             fill={i === highlight ? blue : lightBlue}
           />
+          {i > 1 && i % 2 === 0 && (
+            <text
+              className={_.text}
+              x={i + 0.5}
+              y='3.5'
+              textAnchor='middle'
+              fill={i === highlight ? blue : lightBlue}
+            >
+              {(i + 30) % 52}
+            </text>
+          )}
         </g>
       ))}
+      <text className={_.text} x={0} y='3.5' textAnchor='left' fill={lightBlue}>
+        KW:
+      </text>
     </svg>
   )
 }
