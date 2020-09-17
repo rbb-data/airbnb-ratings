@@ -41,7 +41,7 @@ export default function Histogram(props: Props) {
               textAnchor='middle'
               fill={i === highlight ? blue : lightBlue}
             >
-              {(i + 30) % 52}
+              {(i + 31) % 52}
             </text>
           )}
         </g>

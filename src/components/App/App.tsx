@@ -5,12 +5,29 @@ import PlayButton from 'components/_shared/PlayButton/PlayButton'
 import React, { useState, useEffect } from 'react'
 import 'whatwg-fetch'
 import { csvParse } from 'd3-dsv'
+import { getISOWeek } from 'date-fns'
+
 import _ from './App.module.sass'
 import useAutoStepper from 'lib/hooks/useAutoStepper'
 import Histogram from 'components/Histogram/Histogram'
 
 // this is the blue from the new styleguide it is not yet in the starter
 const defaultBlue = '#0c5382'
+
+const monthNames = [
+  'Januar',
+  'Februar',
+  'März',
+  'April',
+  'Mai',
+  'Juni',
+  'Juli',
+  'August',
+  'September',
+  'Oktober',
+  'November',
+  'Dezember',
+]
 
 interface Count {
   day: string
@@ -23,13 +40,8 @@ function App() {
   useAutoStepper(
     isAnimating,
     () => {
-      if (currentDayIndex === counts.length - 1) {
-        setIsAnimating(false)
-        return false
-      } else {
-        setCurrentDayIndex(currentDayIndex + 1)
-        return 500
-      }
+      setCurrentDayIndex((currentDayIndex + 1) % (counts.length - 1))
+      return 300
     },
     0
   )
@@ -49,11 +61,10 @@ function App() {
 
   const currentCount = counts[currentDayIndex]
   if (currentCount === undefined) return null
+  const currentDate = new Date(currentCount.day)
 
   return (
     <article className={_.app}>
-      <h2 className={_.title}>{currentCount.day}</h2>
-
       <legend className={_.legend}>
         <span />= 1 Bewertung
       </legend>
@@ -66,6 +77,12 @@ function App() {
           color={defaultBlue}
         />
       </div>
+      <h2 className={_.title}>
+        {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+        <span>
+          KW {getISOWeek(currentDate)}: {currentCount.counts} Bewertungen
+        </span>
+      </h2>
 
       <div className={_.controlls}>
         <PlayButton
@@ -80,7 +97,7 @@ function App() {
             setCurrentDayIndex(idx)
           }}
           values={counts.map((c) => parseInt(c.counts))}
-          max={3000}
+          max={4500}
           highlight={currentDayIndex}
         />
       </div>

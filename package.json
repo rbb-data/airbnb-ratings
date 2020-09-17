@@ -2,7 +2,7 @@
   "name": "starter",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dj1.app.rbb-cloud.de/airbnb-ratings-days",
+  "homepage": "https://dj1.app.rbb-cloud.de/airbnb-ratings",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -14,7 +14,7 @@
     "scripts:geocode-data": "node ./scripts/geocode-data.js",
     "scripts:convert-to-csv": "node ./scripts/convert-to-csv.js",
     "scripts:convert-to-geojson": "node ./scripts/convert-to-geojson.js",
-    "deploy": "npm run build && rsync -srvP --rsync-path='sudo rsync' -e 'ssh -i ~/.ssh/rbb-data.pem' build/ linux@rbb-dj-dev.app.rbb-cloud.de:/var/www/airbnb-ratings-days/"
+    "deploy": "npm run build && rsync -srvP --rsync-path='sudo rsync' -e 'ssh -i ~/.ssh/rbb-data.pem' build/ linux@rbb-dj-dev.app.rbb-cloud.de:/var/www/airbnb-ratings/"
   },
   "browserslist": [
     ">0.2%",
@@ -35,6 +35,7 @@
     "@types/react-dom": "^16.9.8",
     "chroma-js": "^2.0.3",
     "d3-force": "^2.1.1",
+    "date-fns": "^2.16.1",
     "fuse.js": "^3.4.4",
     "leaflet": "^1.4.0",
     "leaflet.markercluster": "^1.4.1",

@@ -1,4 +1,5 @@
 const { dsvFormat, csvFormat } = require('d3-dsv')
+const startOfISOWeek = require('date-fns/startOfISOWeek')
 const fs = require('fs')
 const path = require('path')
 const rawData = fs.readFileSync(
@@ -6,39 +7,17 @@ const rawData = fs.readFileSync(
   'utf8'
 )
 
-function getWeek(d) {
-  var date = new Date(d.getTime())
-  date.setHours(0, 0, 0, 0)
-  // Thursday in current week decides the year.
-  date.setDate(date.getDate() + 3 - ((date.getDay() + 6) % 7))
-  // January 4 is always in week 1.
-  var week1 = new Date(date.getFullYear(), 0, 4)
-  // Adjust to Thursday in week 1 and count number of weeks from date to week1.
-  return (
-    1 +
-    Math.round(
-      ((date.getTime() - week1.getTime()) / 86400000 -
-        3 +
-        ((week1.getDay() + 6) % 7)) /
-        7
-    )
-  )
-}
-
 const parser = dsvFormat(',')
 const csv = parser.parse(rawData)
 
 const counts = csv.reduce((accumulator, currentValue) => {
   const date = new Date(currentValue.date)
-  const year = date.getFullYear()
-  const week = getWeek(date).toLocaleString('en', {
-    minimumIntegerDigits: 2,
-  })
+  const cuttOf = startOfISOWeek(new Date(2019, 8))
+  if (date < cuttOf) return accumulator
 
-  const yearNum = parseInt(year)
-  if (yearNum < 2019 || (yearNum === 2019 && week < 30)) return accumulator
+  const isoWeekDate = startOfISOWeek(date)
 
-  const key = `${year}-${week}`
+  const key = isoWeekDate.toISOString()
   if (accumulator[key] === undefined) {
     accumulator[key] = 0
   }
