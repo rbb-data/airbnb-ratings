@@ -6,33 +6,51 @@ const rawData = fs.readFileSync(
   'utf8'
 )
 
+function getWeek(d) {
+  var date = new Date(d.getTime())
+  date.setHours(0, 0, 0, 0)
+  // Thursday in current week decides the year.
+  date.setDate(date.getDate() + 3 - ((date.getDay() + 6) % 7))
+  // January 4 is always in week 1.
+  var week1 = new Date(date.getFullYear(), 0, 4)
+  // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+  return (
+    1 +
+    Math.round(
+      ((date.getTime() - week1.getTime()) / 86400000 -
+        3 +
+        ((week1.getDay() + 6) % 7)) /
+        7
+    )
+  )
+}
+
 const parser = dsvFormat(',')
 const csv = parser.parse(rawData)
 
 const counts = csv.reduce((accumulator, currentValue) => {
   const date = new Date(currentValue.date)
   const year = date.getFullYear()
-  const month = date
-    .getMonth()
-    .toLocaleString('en', { minimumIntegerDigits: 2 })
+  const month = (date.getMonth() + 1).toLocaleString('en', {
+    minimumIntegerDigits: 2,
+  })
+  const week = getWeek(date).toLocaleString('en', {
+    minimumIntegerDigits: 2,
+  })
 
-  if (parseInt(month) > 7) return accumulator
+  if (parseInt(year) < 2019) return accumulator
 
-  const key = month
+  const key = `${year}-${week}`
   if (accumulator[key] === undefined) {
-    accumulator[key] = { '2019': 0, '2020': 0 }
+    accumulator[key] = 0
   }
-  accumulator[key][year] += 1
+  accumulator[key] += 1
   return accumulator
 }, {})
 
 const sorted = Object.entries(counts)
-  .map(([month, years]) => ({
-    month,
-    '2019': years['2019'],
-    '2020': years['2020'],
-  }))
-  .sort((a, b) => a.month.localeCompare(b.month))
+  .map(([day, counts]) => ({ day, counts }))
+  .sort((a, b) => a.day.localeCompare(b.day))
 
 const formated = csvFormat(sorted)
 

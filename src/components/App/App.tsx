@@ -11,38 +11,26 @@ import useAutoStepper from 'lib/hooks/useAutoStepper'
 // this is the blue from the new styleguide it is not yet in the starter
 const defaultBlue = '#0c5382'
 
-const monthStrings = [
-  'Januar',
-  'Februar',
-  'März',
-  'April',
-  'Mai',
-  'Juni',
-  'Juli',
-  'August',
-]
-
 interface Count {
-  month: string
-  '2019': number
-  '2020': number
+  day: string
+  counts: string
 }
 function App() {
-  const [counts, setCounts] = useState<Array<Count>>([])
-  const [currentMonthIndex, setCurrentMonthIndex] = useState(0)
+  const [counts, setCounts] = useState<Count[]>([])
+  const [currentDayIndex, setCurrentDayIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   useAutoStepper(
     isAnimating,
     () => {
-      if (currentMonthIndex === counts.length - 1) {
+      if (currentDayIndex === counts.length - 1) {
         setIsAnimating(false)
         return false
       } else {
-        setCurrentMonthIndex(currentMonthIndex + 1)
-        return 2000
+        setCurrentDayIndex(currentDayIndex + 1)
+        return 500
       }
     },
-    200
+    0
   )
 
   useEffect(() => {
@@ -58,12 +46,13 @@ function App() {
   // ⬆️ the second parameter to useEffect are its dependencies
   //  if the array is empty it runs only once otherwise it runs when depencies change
 
-  const currentCount = counts[currentMonthIndex]
+  const currentCount = counts[currentDayIndex]
   if (currentCount === undefined) return null
 
   return (
     <article className={_.app}>
-      <h2>{monthStrings[currentMonthIndex]}</h2>
+      <h2>{currentCount.day}</h2>
+
       <legend>
         <div style={{ display: 'flex' }}>
           <span
@@ -93,24 +82,15 @@ function App() {
       <div
         style={{
           display: 'grid',
-          gridTemplateAreas: '"left right"',
-          gridTemplateColumns: '1fr 1fr',
+          gridTemplateAreas: '"right"',
+          gridTemplateColumns: '1fr',
         }}
       >
-        <div style={{ gridArea: 'left' }}>
-          <DotSwarm
-            width={300}
-            height={300}
-            count={Math.trunc(currentCount['2019'] / 5)}
-            radius={1.5}
-            color={'#D5D5D5'}
-          />
-        </div>
         <div style={{ gridArea: 'right' }}>
           <DotSwarm
             width={300}
             height={300}
-            count={Math.trunc(currentCount['2020'] / 5)}
+            count={parseInt(currentCount.counts)}
             radius={1.5}
             color={defaultBlue}
           />
@@ -120,7 +100,7 @@ function App() {
       <PlayButton
         showStopIcon={isAnimating}
         onClick={() => {
-          if (currentMonthIndex >= counts.length - 1) setCurrentMonthIndex(0)
+          if (currentDayIndex >= counts.length - 1) setCurrentDayIndex(0)
           setIsAnimating(!isAnimating)
         }}
       />
@@ -128,9 +108,9 @@ function App() {
         type='range'
         step={1}
         max={counts.length - 1}
-        value={currentMonthIndex}
+        value={currentDayIndex}
         onChange={(e) => {
-          setCurrentMonthIndex(+e.target.value)
+          setCurrentDayIndex(+e.target.value)
         }}
       />
     </article>

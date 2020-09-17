@@ -20,8 +20,8 @@ import { useReducer, useEffect, useRef } from 'react'
  *
  * return <button onClick={() => { setIsAnimating(true) }}>start counter</button>
  */
-export default function useAutoStepper (isAnimating, handler, initialDelay = 0) {
-  const [step, bumpStep] = useReducer(s => s + 1, 0)
+export default function useAutoStepper(isAnimating, handler, initialDelay = 0) {
+  const [step, bumpStep] = useReducer((s) => s + 1, 0)
   const timeoutId = useRef(null)
 
   useEffect(() => {
