@@ -66,7 +66,7 @@ function App() {
     isAnimating,
     () => {
       setCurrentDayIndex((currentDayIndex + 1) % (counts.length - 1))
-      return 600
+      return 200
     },
     0
   )
@@ -87,10 +87,6 @@ function App() {
   const currentCount = counts[currentDayIndex]
   if (currentCount === undefined) return null
   const currentDate = new Date(currentCount.day)
-
-  const annotation = annotaions.find(
-    (a) => a.date.getTime() <= currentDate.getTime()
-  )
 
   return (
     <article className={_.app}>
@@ -130,14 +126,6 @@ function App() {
           highlight={currentDayIndex}
         />
       </div>
-      <p key={annotation?.dateText || 'no-annotaion'} className={_.annotation}>
-        {annotation && (
-          <>
-            <span>{annotation.dateText}</span>
-            {annotation.text}
-          </>
-        )}
-      </p>
     </article>
   )
 }
