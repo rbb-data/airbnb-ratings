@@ -33,7 +33,7 @@ function DotSwarm(props: Props) {
   const dots = createNameDotsCluster(width, height, count)
 
   return (
-    <svg width={width} height={height} style={{ overflow: 'visible' }}>
+    <svg viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
       <g>
         {dots.map((dot, j) => (
           <circle key={j} cx={dot[0]} cy={dot[1]} r={radius} fill={color} />

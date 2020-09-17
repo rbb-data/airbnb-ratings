@@ -7,6 +7,7 @@ import 'whatwg-fetch'
 import { csvParse } from 'd3-dsv'
 import _ from './App.module.sass'
 import useAutoStepper from 'lib/hooks/useAutoStepper'
+import Histogram from 'components/Histogram/Histogram'
 
 // this is the blue from the new styleguide it is not yet in the starter
 const defaultBlue = '#0c5382'
@@ -51,68 +52,48 @@ function App() {
 
   return (
     <article className={_.app}>
-      <h2>{currentCount.day}</h2>
+      <h2 className={_.title}>{currentCount.day}</h2>
 
-      <legend>
-        <div style={{ display: 'flex' }}>
-          <span
-            style={{
-              display: 'inline-block',
-              width: '10px',
-              height: '10px',
-              borderRadius: '10px',
-              backgroundColor: '#D5D5D5',
-            }}
-          />
-          2019
-        </div>
-        <div>
-          <span
-            style={{
-              display: 'inline-block',
-              width: '10px',
-              height: '10px',
-              borderRadius: '10px',
-              backgroundColor: defaultBlue,
-            }}
-          />
-          2020
-        </div>
+      <legend className={_.legend}>
+        <span
+          style={{
+            display: 'inline-block',
+            width: '10px',
+            height: '10px',
+            borderRadius: '10px',
+            marginRight: '5px',
+            backgroundColor: defaultBlue,
+          }}
+        />
+        = 1 Bewertung
       </legend>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateAreas: '"right"',
-          gridTemplateColumns: '1fr',
-        }}
-      >
-        <div style={{ gridArea: 'right' }}>
-          <DotSwarm
-            width={300}
-            height={300}
-            count={parseInt(currentCount.counts)}
-            radius={1.5}
-            color={defaultBlue}
-          />
-        </div>
+      <div className={_.dotsWrapper}>
+        <DotSwarm
+          width={350}
+          height={350}
+          count={parseInt(currentCount.counts)}
+          radius={1.5}
+          color={defaultBlue}
+        />
       </div>
 
-      <PlayButton
-        showStopIcon={isAnimating}
-        onClick={() => {
-          if (currentDayIndex >= counts.length - 1) setCurrentDayIndex(0)
-          setIsAnimating(!isAnimating)
-        }}
-      />
-      <input
-        type='range'
-        step={1}
-        max={counts.length - 1}
-        value={currentDayIndex}
-        onChange={(e) => {
-          setCurrentDayIndex(+e.target.value)
-        }}
-      />
+      <div className={_.controlls}>
+        <PlayButton
+          showStopIcon={isAnimating}
+          onClick={() => {
+            if (currentDayIndex >= counts.length - 1) setCurrentDayIndex(0)
+            setIsAnimating(!isAnimating)
+          }}
+        />
+        <Histogram
+          onClick={(idx) => {
+            setCurrentDayIndex(idx)
+          }}
+          values={counts.map((c) => parseInt(c.counts))}
+          max={3000}
+          highlight={currentDayIndex}
+        />
+      </div>
     </article>
   )
 }

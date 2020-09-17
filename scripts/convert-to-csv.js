@@ -31,14 +31,12 @@ const csv = parser.parse(rawData)
 const counts = csv.reduce((accumulator, currentValue) => {
   const date = new Date(currentValue.date)
   const year = date.getFullYear()
-  const month = (date.getMonth() + 1).toLocaleString('en', {
-    minimumIntegerDigits: 2,
-  })
   const week = getWeek(date).toLocaleString('en', {
     minimumIntegerDigits: 2,
   })
 
-  if (parseInt(year) < 2019) return accumulator
+  const yearNum = parseInt(year)
+  if (yearNum < 2019 || (yearNum === 2019 && week < 30)) return accumulator
 
   const key = `${year}-${week}`
   if (accumulator[key] === undefined) {
