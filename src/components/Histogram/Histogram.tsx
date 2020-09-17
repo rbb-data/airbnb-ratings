@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from './Histogram.module.sass'
 
-const { lightBlue, blue } = { lightBlue: '#0c5382', blue: '#52b0ef' }
+const { lightBlue, blue } = { lightBlue: '#0c5382', blue: '#e31818' }
 
 interface Props {
   onClick: (e: any) => void
@@ -41,7 +41,7 @@ export default function Histogram(props: Props) {
               textAnchor='middle'
               fill={i === highlight ? blue : lightBlue}
             >
-              {(i + 31) % 52}
+              {(i + 35) % 52}
             </text>
           )}
         </g>

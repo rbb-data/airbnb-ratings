@@ -1,6 +1,17 @@
 @import "global_styles/colors.sass"
 @import "global_styles/breakpoints.sass"
 
+@keyframes fadeOut
+  0%
+    opacity: 0
+  15%
+    opacity: 1
+  50%
+    opacity: 1
+  100%
+    opacity: 0
+
+
 .app
   text-align: center
 
@@ -8,7 +19,10 @@
   font-size: 1em
   text-align: center
   text-transform: uppercase
-  margin-bottom: 30px
+  margin-bottom: 20px
+  background-color: rgba(255, 255, 255, 0.8)
+  margin-top: -25px
+
 
   span
     font-size: 0.9em
@@ -30,6 +44,18 @@
     border-radius: 8px
     margin-right: 5px
     background-color: #0c5382
+
+.annotation
+  font-size: 0.9em
+  animation: fadeOut 5s
+  opacity: 0
+  height: 60px;
+  padding: 0 20px
+
+  span
+    display: block
+    font-size: 0.9em
+    color: darkGrey
 
 .dotsWrapper
   svg

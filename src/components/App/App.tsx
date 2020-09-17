@@ -29,6 +29,31 @@ const monthNames = [
   'Dezember',
 ]
 
+const annotaions = [
+  {
+    date: new Date(2019, 8),
+    dateText: 'September 2019',
+    text:
+      'Nie gab es mehr Airbnb-Übernachtung in Berlin. 16920 Bewertung in einem Monat.',
+  },
+  {
+    date: new Date(2019, 11, 31),
+    dateText: '31.Dezember 2019',
+    text:
+      'China meldet Fälle einer neuartigen, unbekannten Lungenkrankheit an die Weltgesundheitsorganisation WHO.',
+  },
+  {
+    date: new Date(2020, 2, 16),
+    dateText: '16.März 2020',
+    text: 'Deutschland schränkt Grenzverkehr zu fünf Nachbarländern ein.',
+  },
+  {
+    date: new Date(2020, 4, 25),
+    dateText: '25.Mai 2020',
+    text: 'Berlin Hotels dürfen wieder Gäste empfangen.',
+  },
+].sort((a, b) => b.date.getTime() - a.date.getTime())
+
 interface Count {
   day: string
   counts: string
@@ -41,7 +66,7 @@ function App() {
     isAnimating,
     () => {
       setCurrentDayIndex((currentDayIndex + 1) % (counts.length - 1))
-      return 300
+      return 600
     },
     0
   )
@@ -62,6 +87,10 @@ function App() {
   const currentCount = counts[currentDayIndex]
   if (currentCount === undefined) return null
   const currentDate = new Date(currentCount.day)
+
+  const annotation = annotaions.find(
+    (a) => a.date.getTime() <= currentDate.getTime()
+  )
 
   return (
     <article className={_.app}>
@@ -101,6 +130,14 @@ function App() {
           highlight={currentDayIndex}
         />
       </div>
+      <p key={annotation?.dateText || 'no-annotaion'} className={_.annotation}>
+        {annotation && (
+          <>
+            <span>{annotation.dateText}</span>
+            {annotation.text}
+          </>
+        )}
+      </p>
     </article>
   )
 }
