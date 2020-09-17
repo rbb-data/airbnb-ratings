@@ -20,8 +20,9 @@ export default function Histogram(props: Props) {
   return (
     <svg
       className={_.svg}
+      width={values.length}
+      height={maxBarHeight + 1.2}
       viewBox={`0 0 ${values.length} ${maxBarHeight + 1.2}`}
-      width='100%'
       xmlns='http://www.w3.org/2000/svg'
     >
       {normalizedValues.map((val, i) => (
