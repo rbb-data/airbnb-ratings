@@ -40,7 +40,7 @@ function DotSwarm(props: Props) {
       <g>
         {dots.map((dot, j) => (
           <circle
-            style={{ transition: 'fill 0.4s linear' }}
+            style={{ transition: 'fill 0.7s linear' }}
             key={j}
             cx={dot[0]}
             cy={dot[1]}
