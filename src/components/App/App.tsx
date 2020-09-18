@@ -81,7 +81,7 @@ function App() {
       <h2 className={_.title}>
         {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
         <span>
-          KW {getISOWeek(currentDate)}: {currentCount.counts} Bewertungen
+          Woche {getISOWeek(currentDate)}: {currentCount.counts} Bewertungen
         </span>
       </h2>
 
