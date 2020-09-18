@@ -35,13 +35,13 @@ interface Count {
 }
 function App() {
   const [counts, setCounts] = useState<Count[]>([])
-  const [currentDayIndex, setCurrentDayIndex] = useState(0)
+  const [currentDayIndex, setCurrentDayIndex] = useState(26)
   const [isAnimating, setIsAnimating] = useState(false)
   useAutoStepper(
     isAnimating,
     () => {
       setCurrentDayIndex((currentDayIndex + 1) % counts.length)
-      return currentDayIndex === counts.length - 2 ? 2000 : 250
+      return currentDayIndex === counts.length - 2 ? 3000 : 400
     },
     0
   )
